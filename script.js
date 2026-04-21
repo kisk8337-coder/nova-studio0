@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     // =========================
-    // REVEAL ANIMATION (OPTIMIZED)
+    // REVEAL ANIMATION
     // =========================
     const revealItems = document.querySelectorAll(".reveal.animate");
 
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================
-    // MODAL SYSTEM (FIXED)
+    // MODAL SYSTEM
     // =========================
     const modal = document.getElementById("modal");
     const openBtn = document.getElementById("openForm");
@@ -40,9 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 300);
     }
 
-    if (openBtn) {
-        openBtn.addEventListener("click", openModal);
-    }
+    if (openBtn) openBtn.addEventListener("click", openModal);
 
     if (modal) {
         modal.addEventListener("click", (e) => {
@@ -56,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================
-    // LIGHTBOX (PORTFOLIO)
+    // LIGHTBOX
     // =========================
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
@@ -79,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================
-    // TOAST SYSTEM (SAFE)
+    // TOAST SYSTEM
     // =========================
     function showToast(message, type = "success") {
         let toast = document.getElementById("toast");
@@ -118,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================
-    // TELEGRAM FORM (REAL FIX)
+    // FORM → VERCEL API → TELEGRAM
     // =========================
     const form = document.getElementById("bookingForm");
 
@@ -135,31 +133,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 button.textContent = "Отправка...";
             }
 
-            const TOKEN = "PUT_YOUR_TOKEN_HERE";
-            const CHAT_ID = "PUT_YOUR_CHAT_ID_HERE";
-
-            const text = `
-📸 Новая заявка
-
-👤 Имя: ${form.name?.value || "-"}
-📞 Телефон: ${form.phone?.value || "-"}
-📧 Email: ${form.email?.value || "-"}
-💬 Telegram: ${form.telegram?.value || "-"}
-            `;
-
             try {
-                const res = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+                const res = await fetch("/api/send", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
                     body: JSON.stringify({
-                        chat_id: CHAT_ID,
-                        text
+                        name: form.name.value,
+                        phone: form.phone.value,
+                        email: form.email.value,
+                        telegram: form.telegram.value
                     })
                 });
 
                 const data = await res.json();
 
-                if (!data.ok) throw new Error();
+                if (!data.success) throw new Error();
 
                 showToast("Заявка отправлена 🚀", "success");
                 form.reset();
@@ -178,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =========================
-    // HERO PARALLAX (SMOOTH)
+    // HERO PARALLAX
     // =========================
     const heroBg = document.querySelector(".hero-bg");
 
@@ -193,10 +183,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
-// =========================
-// BEFORE / AFTER DRAG (STABLE)
-// =========================
 
+
+// =========================
+// BEFORE / AFTER SLIDER
+// =========================
 document.querySelectorAll(".case-slider").forEach(slider => {
     const after = slider.querySelector(".after");
     const line = slider.querySelector(".slider-line");
@@ -217,20 +208,17 @@ document.querySelectorAll(".case-slider").forEach(slider => {
         line.style.left = value + "%";
     };
 
-    // START DRAG
     slider.addEventListener("pointerdown", (e) => {
         isDown = true;
-        slider.setPointerCapture(e.pointerId); // фиксируем указатель
+        slider.setPointerCapture(e.pointerId);
         move(e.clientX);
     });
 
-    // MOVE (по всему окну — это ключ)
     window.addEventListener("pointermove", (e) => {
         if (!isDown) return;
         move(e.clientX);
     });
 
-    // END DRAG
     const stop = () => {
         isDown = false;
     };
@@ -238,78 +226,52 @@ document.querySelectorAll(".case-slider").forEach(slider => {
     window.addEventListener("pointerup", stop);
     window.addEventListener("pointercancel", stop);
 });
+
+
+// =========================
+// SERVICES MODAL CONTENT
+// =========================
 const servicesData = {
-  commercial: {
-    title: "Коммерческая съёмка",
-    text: `
-✔ проработка идеи и концепции<br>
-✔ подбор референсов<br>
-✔ съёмка под задачу бизнеса<br>
-✔ обработка фото<br><br>
-Результат: визуал, который продаёт
-    `
-  },
-  product: {
-    title: "Предметная съёмка",
-    text: `
-✔ съёмка для Wildberries / Ozon<br>
-✔ белый фон / лайфстайл<br>
-✔ работа со светом<br><br>
-Результат: рост CTR карточек
-    `
-  },
-  wedding: {
-    title: "Свадебная съёмка",
-    text: `
-✔ полный день или церемония<br>
-✔ репортаж + постановка<br>
-✔ обработка всех фото<br><br>
-Результат: живая история дня
-    `
-  },
-  love: {
-    title: "Love Story",
-    text: `
-✔ помощь с позированием<br>
-✔ подбор локации<br>
-✔ атмосферная съёмка<br><br>
-Результат: эстетичная история пары
-    `
-  },
-  personal: {
-    title: "Персональная съёмка",
-    text: `
-✔ портрет / lifestyle<br>
-✔ помощь в образе<br>
-✔ лёгкая атмосфера<br><br>
-Результат: сильный личный визуал
-    `
-  },
-  content: {
-    title: "Контент для соцсетей",
-    text: `
-✔ съёмка под Instagram<br>
-✔ контент-план<br>
-✔ серия фото<br><br>
-Результат: единый стиль профиля
-    `
-  }
+    commercial: {
+        title: "Коммерческая съёмка",
+        text: `✔ идея и концепция<br>✔ референсы<br>✔ съёмка<br>✔ обработка`
+    },
+    product: {
+        title: "Предметная съёмка",
+        text: `✔ WB / Ozon<br>✔ белый фон<br>✔ лайфстайл`
+    },
+    wedding: {
+        title: "Свадебная съёмка",
+        text: `✔ полный день<br>✔ репортаж<br>✔ обработка`
+    },
+    love: {
+        title: "Love Story",
+        text: `✔ позирование<br>✔ локации<br>✔ атмосфера`
+    },
+    personal: {
+        title: "Персональная съёмка",
+        text: `✔ портрет<br>✔ стиль<br>✔ образ`
+    },
+    content: {
+        title: "Контент для соцсетей",
+        text: `✔ Instagram<br>✔ контент-план<br>✔ серия фото`
+    }
 };
+
 document.querySelectorAll(".service-card").forEach(card => {
-  card.addEventListener("click", () => {
-    const key = card.dataset.service;
-    const service = servicesData[key];
+    card.addEventListener("click", () => {
+        const key = card.dataset.service;
+        const service = servicesData[key];
 
-    if (!service) return;
+        if (!service) return;
 
-    const modal = document.getElementById("modal");
+        const modal = document.getElementById("modal");
 
-    modal.querySelector("h2").textContent = service.title;
-    modal.querySelector("p").innerHTML = service.text;
+        modal.querySelector("h2").textContent = service.title;
+        modal.querySelector("p").innerHTML = service.text;
 
-    modal.style.display = "flex";
-    requestAnimationFrame(() => modal.classList.add("show"));
-    document.body.style.overflow = "hidden";
-  });
+        modal.style.display = "flex";
+        requestAnimationFrame(() => modal.classList.add("show"));
+        document.body.style.overflow = "hidden";
+    });
 });
-
