@@ -4,29 +4,37 @@ export default async function handler(req, res) {
   }
 
   try {
-    const data = req.body;
+    const { name, phone, email, telegram } = req.body || {};
 
     const text = `
 📸 Новая заявка
 
-👤 Имя: ${data.name || "-"}
-📞 Телефон: ${data.phone || "-"}
-📧 Email: ${data.email || "-"}
-💬 Telegram: ${data.telegram || "-"}
+👤 Имя: ${name || "-"}
+📞 Телефон: ${phone || "-"}
+📧 Email: ${email || "-"}
+💬 Telegram: ${telegram || "-"}
     `;
 
-    await fetch(`https://api.telegram.org/bot${process.env.TG_TOKEN}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: process.env.TG_CHAT_ID,
-        text
-      })
-    });
+    const response = await fetch(
+      `https://api.telegram.org/bot${process.env.TG_TOKEN}/sendMessage`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          chat_id: process.env.TG_CHAT_ID,
+          text
+        })
+      }
+    );
 
-    return res.status(200).json({ ok: true });
+    const data = await response.json();
 
-  } catch (e) {
-    return res.status(500).json({ error: "Server error" });
+    return res.status(200).json({ success: data.ok });
+
+  } catch (err) {
+    return res.status(500).json({ success: false });
   }
+}
 }
