@@ -425,7 +425,7 @@ h2 {
     opacity: 0;
 
     transition: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}S
+}
 
 /* анимация появления */
 .modal.show .modal-content {
@@ -1207,4 +1207,142 @@ p {
 
 .modal-content br {
   margin-bottom: 6px;
+}
+/* =========================
+   MOBILE PRO VERSION
+   ========================= */
+
+@media (max-width: 768px) {
+
+  /* ===== ОБЩЕЕ ===== */
+  body {
+    font-size: 15px;
+  }
+
+  .section {
+    padding: 60px 0;
+  }
+
+  h1 {
+    font-size: 34px;
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: 26px;
+    margin-bottom: 30px;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    height: auto;
+    padding: 120px 20px 60px;
+  }
+
+  .hero-subtitle {
+    font-size: 14px;
+  }
+
+  .hero-stats {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  /* ===== КНОПКИ ===== */
+  .hero-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* ===== SERVICES ===== */
+  .service-card {
+    padding: 20px;
+  }
+
+  /* ===== ПОРТФОЛИО ===== */
+  .img {
+    aspect-ratio: 4 / 5;
+  }
+
+  /* ===== 🔥 КЕЙСЫ (ГЛАВНОЕ) ===== */
+
+  .cases-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .case-card {
+    padding: 0;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  /* 👉 СЛАЙДЕР СТАНОВИТСЯ ГОРИЗОНТАЛЬНЫМ */
+  .case-slider {
+    aspect-ratio: 4 / 3; /* БОЛЬШЕ и удобнее */
+  }
+
+  /* 👉 УВЕЛИЧИЛИ РУЧКУ */
+  .slider-handle {
+    width: 52px;
+    height: 52px;
+  }
+
+  /* 👉 ТОЛЩЕ ЛИНИЯ */
+  .slider-line {
+    width: 3px;
+  }
+
+  /* 👉 КОНТЕНТ */
+  .case-content {
+    padding: 18px;
+  }
+
+  .case-header h3 {
+    font-size: 16px;
+  }
+
+  .case-big-text {
+    font-size: 15px;
+  }
+
+  .case-small-text {
+    font-size: 14px;
+  }
+
+  .case-result {
+    font-size: 13px;
+  }
+
+  /* 👉 HERO CASE УБИРАЕМ В СТОЛБИК */
+  .hero-case {
+    display: block;
+  }
+
+  /* ===== СПИСКИ ===== */
+  .list .item {
+    padding: 18px 0;
+    font-size: 14px;
+  }
+
+  /* ===== МОДАЛКА ===== */
+  .modal-content {
+    padding: 20px;
+    border-radius: 14px;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    padding: 12px 16px;
+  }
+
+  .logo {
+    font-size: 12px;
+  }
+
 }
